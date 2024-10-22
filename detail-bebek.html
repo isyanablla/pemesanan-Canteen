@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Bebek</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8ede4; /* Menyesuaikan warna latar belakang */
+        }
+        .cart-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+        .product-card {
+            width: 300px;
+            background-color: #fae7e7;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            text-align: left;
+            position: relative;
+        }
+        .product-image {
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .arrow-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #fff;
+            border: none;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-header h2 {
+            font-size: 20px; /* Ukuran tulisan PAKET BEBEK diperbesar */
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        .product-header .quantity {
+            display: flex;
+            align-items: center;
+        }
+        .quantity button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .quantity span {
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .product-info p.title {
+            font-size: 14px; /* Ukuran font untuk deskripsi paket dibesarkan sedikit */
+            font-weight: bold;
+            color: #333;
+            margin: 5px 0;
+        }
+        .product-info p {
+            font-size: 12px;
+            color: #555;
+            margin: 5px 0;
+        }
+        .rating {
+            color: #ffcc00;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .add-to-cart {
+            background-color: #ff8a8a;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .add-to-cart:hover {
+            background-color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+
+<img src="file:///C:/Users/LENOVO/Pictures/pemesanan/cart-icon.png" alt="Cart" class="cart-icon" onclick="window.location.href='file:///C:/Users/LENOVO/Pictures/pemesanan/your-cart.html#'">
+
+<div class="product-card">
+    <div class="product-image">
+        <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/bebek.jpg" alt="Paket Bebek">
+        <button class="arrow-left" onclick="window.location.href='file:///C:/Users/LENOVO/Pictures/pemesanan/index.html.html';">←</button>
+    </div>
+    <div class="product-info">
+        <div class="product-header">
+            <h2>PAKET BEBEK</h2>
+            <div class="quantity">
+                <button class="minus">-</button>
+                <span id="quantity">0</span>
+                <button class="plus">+</button>
+            </div>
+        </div>
+        <p class="title">Paket Bebek Goreng/Bakar + Nasi + Lalapan + Sambal</p>
+        <div class="rating">
+            ★★★★☆
+        </div>
+        <p class="price">Rp 30.000</p>
+        <p>Satu porsi bebek goreng atau bakar, nasi putih, lalapan segar (timun, kemangi, dan sayuran lainnya), sambal pilihan (sambal terasi, sambal matah, atau sambal kecap)</p>
+        <button class="add-to-cart" onclick="addToCart('Paket Bebek', 'Rp. 30.000')">Tambahkan Ke Keranjang</button>
+    </div>
+</div>
+
+<script>
+    // Script untuk pengaturan jumlah mulai dari 0
+    let quantity = 0;
+    const quantityElement = document.getElementById('quantity');
+    const minusButton = document.querySelector('.minus');
+    const plusButton = document.querySelector('.plus');
+
+    minusButton.addEventListener('click', () => {
+        if (quantity > 0) {
+            quantity--;
+            quantityElement.textContent = quantity < 10 ? '0' + quantity : quantity;
+        }
+    });
+
+    plusButton.addEventListener('click', () => {
+        quantity++;
+        quantityElement.textContent = quantity < 10 ? '0' + quantity : quantity;
+    });
+
+    function addToCart(productName, price) {
+        if (quantity > 0) {
+            // Simpan item ke keranjang
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+            
+            if (existingItemIndex > -1) {
+                // Update quantity jika item sudah ada
+                cartItems[existingItemIndex].quantity += quantity;
+            } else {
+                // Tambahkan item baru ke keranjang
+                cartItems.push({ name: productName, price: price, quantity: quantity });
+            }
+
+            // Simpan item keranjang ke local storage
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+            alert(`Added ${quantity} x ${productName} to cart at ${price}`);
+            quantity = 0; // Reset quantity setelah menambahkan ke keranjang
+            quantityElement.textContent = '0'; // Reset tampilan quantity
+            
+            // Redirect ke halaman keranjang
+            window.location.href = 'file:///C:/Users/LENOVO/Pictures/pemesanan/your-cart.html#';
+        } else {
+            alert('Please select a quantity before adding to cart.');
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histori Pembelian</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .history-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .history-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .history-item h3 {
+            margin: 0;
+        }
+        .item-list {
+            list-style: none;
+            padding: 0;
+        }
+        .item-list li {
+            margin: 5px 0;
+        }
+        .done-button, .clear-history {
+            display: block;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .done-button:hover, .clear-history:hover {
+            background-color: #218838;
+        }
+        .clear-history {
+            background-color: #dc3545; /* Warna merah untuk tombol hapus */
+        }
+        .clear-history:hover {
+            background-color: #c82333; /* Warna merah lebih gelap saat hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="history-container">
+    <h2>Histori Pembelian</h2>
+    <div id="historyItemsContainer"></div>
+    <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/index.html.html" class="done-button">Kembali ke Menu</a>
+    <button class="clear-history" id="clearHistoryButton">Hapus Semua Histori Pembelian</button>
+</div>
+
+<script>
+    function displayPurchaseHistory() {
+        const historyItemsContainer = document.getElementById('historyItemsContainer');
+        const purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+
+        if (purchaseHistory.length === 0) {
+            historyItemsContainer.innerHTML = '<p>Tidak ada histori pembelian.</p>';
+            return;
+        }
+
+        purchaseHistory.forEach(purchase => {
+            const historyItemDiv = document.createElement('div');
+            historyItemDiv.className = 'history-item';
+            historyItemDiv.innerHTML = `
+                <h3>${purchase.customerName}</h3>
+                <p>Tanggal: ${purchase.orderDate} | Waktu: ${purchase.orderTime}</p>
+                <p>Total Dibayar: ${purchase.totalPaid}</p>
+                <ul class="item-list">
+                    ${purchase.items.map(item => `<li>${item.name} (x${item.quantity})</li>`).join('')}
+                </ul>
+            `;
+            historyItemsContainer.appendChild(historyItemDiv);
+        });
+    }
+
+    // Fungsi untuk menghapus semua histori pembelian
+    function clearPurchaseHistory() {
+        localStorage.removeItem('purchaseHistory');
+        alert('Histori pembelian telah dihapus.');
+        displayPurchaseHistory(); // Tampilkan histori setelah dihapus
+    }
+
+    // Tambahkan event listener ke tombol hapus histori
+    document.getElementById('clearHistoryButton').addEventListener('click', clearPurchaseHistory);
+
+    // Tampilkan histori pembelian saat halaman dimuat
+    window.onload = displayPurchaseHistory;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struk Pembayaran</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .receipt-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .receipt-header h2 {
+            margin: 0;
+        }
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .receipt-item p {
+            margin: 0;
+        }
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .item-price {
+            font-size: 18px;
+        }
+        .total-section {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .total-section span {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .done-button {
+            display: block;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .done-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="receipt-container">
+    <div class="receipt-header">
+        <h2>Struk Pembayaran</h2>
+        <p>Terima kasih atas pembelian Anda!</p>
+        <p id="customerInfo"></p>
+    </div>
+
+    <div id="receiptItemsContainer"></div>
+
+    <div class="total-section">
+        <p>Total Dibayar: <span id="totalPaid">Rp 0</span></p>
+    </div>
+
+    <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/histori_pembelian.html" class="done-button">Selesai</a>
+</div>
+
+<script>
+    function displayReceipt() {
+        const receiptItemsContainer = document.getElementById('receiptItemsContainer');
+        const totalPaidElement = document.getElementById('totalPaid');
+        const customerInfoElement = document.getElementById('customerInfo');
+        let total = 0;
+
+        // Ambil nama pemesan dan tanggal/waktu dari localStorage
+        const customerName = localStorage.getItem('customerName');
+        const orderDateTime = JSON.parse(localStorage.getItem('orderDateTime')) || {};
+        const orderDate = orderDateTime.date || new Date().toLocaleDateString('id-ID');
+        const orderTime = orderDateTime.time || new Date().toLocaleTimeString('id-ID');
+
+        // Tampilkan informasi pemesan
+        customerInfoElement.innerHTML = `Nama: ${customerName} | Tanggal: ${orderDate} | Waktu: ${orderTime}`;
+
+        // Harga per item
+        const prices = {
+            'Paket Bebek': 30000,
+            'Paket Ayam': 25000,
+            'Paket Lele': 22000,
+            'Paket Komplit': 110000,
+            'Paket Pepes': 20000,
+            'Paket Ikan': 28000
+        };
+
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        cartItems.forEach(item => {
+            const itemPrice = prices[item.name] || 0;
+            const receiptItemDiv = document.createElement('div');
+            receiptItemDiv.className = 'receipt-item';
+            receiptItemDiv.innerHTML = `
+                <p class="item-name">${item.name} (x${item.quantity})</p>
+                <p class="item-price">Rp ${item.quantity * itemPrice}</p>
+            `;
+            receiptItemsContainer.appendChild(receiptItemDiv);
+            total += item.quantity * itemPrice;
+        });
+
+        // Update total dibayar
+        totalPaidElement.textContent = 'Rp ' + total;
+
+        // Simpan total dibayar di localStorage
+        localStorage.setItem('totalPaid', total);
+
+        // Simpan histori pembelian
+        savePurchaseHistory();
+
+        // Hapus cart setelah menampilkan struk
+        localStorage.removeItem('cartItems');
+    }
+
+    function savePurchaseHistory() {
+        const purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+        const customerName = localStorage.getItem('customerName');
+        const orderDateTime = JSON.parse(localStorage.getItem('orderDateTime')) || {};
+        const orderDate = orderDateTime.date || new Date().toLocaleDateString('id-ID');
+        const orderTime = orderDateTime.time || new Date().toLocaleTimeString('id-ID');
+        const totalPaid = localStorage.getItem('totalPaid') || 'Rp 0';
+
+        // Membuat objek data pembelian
+        const newPurchase = {
+            customerName: customerName,
+            orderDate: orderDate,
+            orderTime: orderTime,
+            totalPaid: totalPaid,
+            items: JSON.parse(localStorage.getItem('cartItems')) || []
+        };
+
+        // Menambahkan pembelian baru ke histori
+        purchaseHistory.push(newPurchase);
+        localStorage.setItem('purchaseHistory', JSON.stringify(purchaseHistory));
+    }
+
+    // Tampilkan struk saat halaman dimuat
+    window.onload = displayReceipt;
+</script>
+
+</body>
+</html>

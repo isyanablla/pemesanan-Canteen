@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Kantin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f3e7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            background-color: #fdf6f0;
+            padding: 20px;
+            position: relative;
+        }
+
+        .back-button, .cart-button {
+            position: absolute;
+            top: 10px;
+            background-color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            left: 10px;
+        }
+
+        .cart-button {
+            right: 10px;
+        }
+
+        .back-button img, .cart-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f58fa8;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .menu-section h2 {
+            margin-bottom: 10px;
+            color: #ff8577;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .menu-item {
+            width: 48%;
+            background-color: #ffebee;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+
+        .menu-item h3 {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .menu-item p {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .menu-item .price {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .menu-item .rating {
+            color: #ffbf00;
+            margin-bottom: 5px;
+        }
+
+        .menu-item .rating i {
+            font-style: normal;
+        }
+
+        @media (max-width: 400px) {
+            .menu-item {
+                width: 100%;
+            }
+        }
+
+        .added-items {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Tombol Kembali -->
+    <button class="back-button" onclick="goBack()">
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/left.png" alt="Kembali">
+    </button>
+
+    <h1>Canteen</h1>
+
+    <!-- Bilah Pencarian -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Cari...">
+    </div>
+
+    <!-- Menu Makanan Populer -->
+    <div class="menu-section">
+        <h2>Populer</h2>
+
+        <div class="menu-items" id="menuItems">
+            <div class="menu-item">
+                <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/detail-bebek.html">
+                    <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/bebek.jpg" alt="Paket Bebek">
+                </a>
+                <div class="rating">★★★★★</div>
+                <h3>Paket Bebek</h3>
+                <p class="price">Rp. 30.000</p>
+            </div>
+
+            <div class="menu-item">
+                <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/detail-ayam.html">
+                    <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/ayam.jpg" alt="Paket Ayam">
+                </a>
+                <div class="rating">★★★★★</div>
+                <h3>Paket Ayam</h3>
+                <p class="price">Rp. 25.000</p>
+            </div>
+
+            <div class="menu-item">
+                <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/detail-lele.html">
+                    <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/lele.jpg" alt="Paket Lele">
+                </a>
+                <div class="rating">★★★★☆</div>
+                <h3>Paket Lele</h3>
+                <p class="price">Rp. 22.000</p>
+            </div>
+
+            <div class="menu-item">
+                <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/detail-komplit.html">
+                    <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/komplit.jpg" alt="Paket Komplit">
+                </a>
+                <div class="rating">★★★★★</div>
+                <h3>Paket Komplit</h3>
+                <p class="price">Rp. 110.000</p>
+            </div>
+
+            <div class="menu-item">
+                <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/detail-pepes.html">
+                    <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/pepes.jpg" alt="Paket Pepes">
+                </a>
+                <div class="rating">★★★★☆</div>
+                <h3>Paket Pepes</h3>
+                <p class="price">Rp. 20.000</p>
+            </div>
+
+            <div class="menu-item">
+                <a href="file:///C:/Users/LENOVO/Pictures/pemesanan/detail-ikan.html">
+                    <img src="file:///C:/Users/LENOVO/Pictures/pemesanan/ikan.jpg" alt="Paket Ikan">
+                </a>
+                <div class="rating">★★★★★</div>
+                <h3>Paket Ikan</h3>
+                <p class="price">Rp. 28.000</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="added-items" id="addedItems" style="display: none;">
+        <h2>Item yang Ditambahkan:</h2>
+        <ul id="cartList"></ul>
+    </div>
+</div>
+
+<!-- Script untuk tombol kembali dan pencarian -->
+<script>
+    function goBack() {
+        window.location.href = "file:///C:/Users/LENOVO/Pictures/pemesanan/order.html"; // Ganti dengan link yang diinginkan
+    }
+
+    const cartItems = [];
+
+    function addToCart(name, price) {
+        cartItems.push(`${name} - ${price}`);
+        displayCart();
+    }
+
+    function displayCart() {
+        const cartList = document.getElementById('cartList');
+        cartList.innerHTML = '';
+
+        cartItems.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            cartList.appendChild(listItem);
+        });
+
+        const addedItemsSection = document.getElementById('addedItems');
+        addedItemsSection.style.display = cartItems.length > 0 ? 'block' : 'none';
+    }
+
+    // Fungsi untuk filter pencarian
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchQuery = this.value.toLowerCase();
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        menuItems.forEach(function(item) {
+            const itemName = item.querySelector('h3').textContent.toLowerCase();
+            if (itemName.includes(searchQuery)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
